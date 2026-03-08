@@ -1,0 +1,660 @@
+:root {
+    --bg-black: #050505;
+    --text-parchment: #fdfcfb;
+    --text-dim: rgba(253, 252, 251, 0.5);
+    --accent-fire: #ff4500;
+    --accent-rage: #8b0000;
+    --accent-sanjeevani: #00ffaa;
+    --accent-sindoor: #e64a19;
+    --accent-gold: #ffcc66;
+    --font-serif: 'Playfair Display', serif;
+    --font-ancient: 'Spectral', serif;
+    --font-devanagari: 'Yatra One', cursive;
+    --hriday-opacity: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Forceful Native Scrollbar Annihilation */
+html,
+body {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    background: transparent !important;
+}
+
+/* Absolute Cursor Override */
+@media (pointer: fine) {
+    * {
+        cursor: none !important;
+    }
+}
+
+body {
+    background-color: var(--bg-black);
+    color: var(--text-parchment);
+    font-family: var(--font-serif);
+    line-height: 1.8;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Background Layers */
+.canvas-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    transform: translateZ(0);
+    /* Hardware Acceleration */
+}
+
+.stone-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: var(--bg-url);
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.2) contrast(1.1);
+    transition: filter 4s ease;
+}
+
+/* Reading Glass Effect */
+.reading-glass {
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.9) 90%, rgba(0, 0, 0, 0));
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    padding: 3rem 0;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+/* Header & Shloka */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 10%;
+    position: relative;
+}
+
+.shloka {
+    font-family: var(--font-devanagari);
+    font-size: clamp(1.4rem, 5vw, 2.8rem);
+    line-height: 1.5;
+    color: #fdfcfb;
+    text-shadow: 0px 4px 20px rgba(0, 0, 0, 1), 0px 0px 10px rgba(0, 0, 0, 0.9);
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 20;
+}
+
+.cooling-iron {
+    animation: coolDown 5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes coolDown {
+    0% {
+        color: #fff;
+        filter: drop-shadow(0 0 30px #fff) drop-shadow(0 0 50px var(--accent-fire));
+    }
+
+    40% {
+        color: #ffcc66;
+        filter: drop-shadow(0 0 15px var(--accent-fire));
+    }
+
+    100% {
+        color: #fdfcfb;
+        filter: drop-shadow(0 0 0 transparent);
+    }
+}
+
+/* Content & Fragments */
+.container {
+    position: relative;
+    z-index: 15;
+}
+
+.fragment {
+    margin-bottom: 35vh;
+    opacity: 0.1;
+    /* Start slightly visible to avoid fully 'missing' text */
+    transform: translateY(30px);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fragment.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.fragment p {
+    font-family: var(--font-ancient);
+    font-size: clamp(1.15rem, 3vw, 1.45rem);
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--text-dim);
+    transition: color 1s ease, transform 1s ease;
+    padding: 0 1.5rem;
+    text-align: center;
+}
+
+.fragment.active p {
+    color: var(--text-parchment);
+}
+
+/* Footer & Climax */
+.footer {
+    height: 110vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 20;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9) 30%, #000);
+}
+
+#sarayu-river {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 25vh;
+    background: linear-gradient(to top, rgba(13, 22, 38, 0.6), transparent);
+    z-index: 1;
+}
+
+.lotus-vfx-container {
+    position: relative;
+    z-index: 10;
+}
+
+/* Other UI */
+.svg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.noise-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    pointer-events: none;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.1;
+    mix-blend-mode: soft-light;
+}
+
+.tripund-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 320px;
+    opacity: 0.25;
+}
+
+.vibhuti-line {
+    fill: none;
+    stroke: #e0e0e0;
+    stroke-width: 5;
+    stroke-linecap: round;
+    filter: url(#ash-texture);
+}
+
+.third-eye-bindu {
+    fill: #ffffff;
+    animation: binduPulse 3s infinite ease-in-out;
+}
+
+/* Veerbhadra Fissure (Custom 3D Molten Scrollbar) */
+#fissure-track {
+    position: fixed;
+    right: 15px;
+    top: 5vh;
+    height: 90vh;
+    width: 12px;
+    background: #0a0a0a;
+    /* Slightly lighter than true black */
+    z-index: 10000;
+    pointer-events: none;
+    /* The Realistic Jagged Edge */
+    clip-path: polygon(10% 0%, 90% 0%, 100% 15%, 85% 30%, 100% 50%, 80% 70%, 100% 85%, 90% 100%, 10% 100%, 0% 85%, 15% 70%, 0% 50%, 20% 30%, 0% 15%);
+    box-shadow: inset 2px 0 15px rgba(255, 69, 0, 0.05), inset -2px 0 5px rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 69, 0, 0.1);
+}
+
+#fissure-magma {
+    width: 100%;
+    background: linear-gradient(to bottom, #440000, #ff4500 50%, #ffaa00 90%, #ffffff 100%);
+    box-shadow: 0 0 15px #ff4500;
+    transition: height 0.1s ease-out;
+    /* Smooth transition for realism */
+    position: relative;
+}
+
+/* The White-Hot Tip Flare */
+#fissure-magma::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, #ffffff 0%, rgba(255, 140, 0, 0.8) 40%, transparent 70%);
+    filter: blur(2px);
+    animation: sparkPulse 1.5s infinite alternate;
+}
+
+@keyframes sparkPulse {
+    from {
+        transform: translateX(-50%) scale(0.8);
+        opacity: 0.7;
+    }
+
+    to {
+        transform: translateX(-50%) scale(1.2);
+        opacity: 1;
+    }
+}
+
+
+body:not(.touch-device) {
+    cursor: none;
+}
+
+
+/* High-Realism Jiva Cursor (Core & Aura) */
+@media (pointer: fine) {
+
+    #jiva-core,
+    #jiva-aura {
+        position: fixed;
+        top: 0;
+        left: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10010;
+        /* Boosted above sidebar (10002) and trigger (10003) */
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    #jiva-core {
+        width: 2px;
+        height: 2px;
+        background: #fff;
+        mix-blend-mode: difference;
+        box-shadow: 0 0 4px #fff;
+    }
+
+    #jiva-aura {
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 69, 0, 0.15);
+        mix-blend-mode: screen;
+        filter: blur(8px);
+        transition: background 0.8s ease, box-shadow 0.8s ease;
+        box-shadow: 0 0 15px #ff4500;
+    }
+}
+
+@keyframes binduPulse {
+
+    0%,
+    100% {
+        fill: #fff;
+        r: 4;
+        filter: drop-shadow(0 0 8px #fff);
+    }
+
+    50% {
+        fill: var(--accent-rage);
+        r: 6;
+        filter: drop-shadow(0 0 20px var(--accent-rage));
+    }
+}
+
+/* Mobile optimization: Sidebar width */
+@media (max-width: 768px) {
+    #sacred-sidebar {
+        width: 80%;
+        left: -80%;
+    }
+
+    #sacred-sidebar.active {
+        left: 0;
+    }
+}
+
+/* Internal Japa (Dual Randomized Tilt Refinement) */
+#japa-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.japa-layer {
+    position: absolute;
+    font-family: var(--font-devanagari), cursive;
+    font-size: 2rem;
+    font-weight: 500;
+    width: 300%;
+    /* Extremely wide for rotation/drift padding */
+    text-align: center;
+    line-height: 1.2;
+    opacity: 0;
+    mix-blend-mode: screen;
+    transition: opacity 1.5s ease-in-out;
+    word-wrap: break-word;
+    letter-spacing: 4px;
+}
+
+#japa-veerbhadra {
+    color: #b71c1c;
+    transform: rotate(-15deg);
+    /* Aggressive counter-tilt */
+    text-shadow: 0 0 10px rgba(183, 28, 28, 0.4);
+}
+
+#japa-hanuman {
+    color: #ffa000;
+    transform: rotate(15deg);
+    /* Aggressive clock-tilt */
+    text-shadow: 0 0 15px rgba(255, 160, 0, 0.3);
+}
+
+/* Sacred Sidebar (Restoration & Sanatan Aesthetic) */
+#sidebar-trigger {
+    position: fixed;
+    top: 30px;
+    left: 30px;
+    z-index: 10003;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+    pointer-events: all;
+}
+
+.trigger-line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text-parchment);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
+}
+
+#sidebar-trigger.active .trigger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+#sidebar-trigger.active .trigger-line:nth-child(2) {
+    opacity: 0;
+}
+
+#sidebar-trigger.active .trigger-line:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+#sacred-sidebar {
+    position: fixed;
+    top: 0;
+    left: -80px;
+    width: 80px;
+    height: 100vh;
+    z-index: 10002;
+    transition: left 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    background: #111;
+    /* Fallback */
+    overflow: hidden;
+}
+
+#sacred-sidebar.active {
+    left: 0;
+}
+
+/* Proximity Hum/Glow Effect */
+#sacred-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0);
+    transition: box-shadow 0.4s ease;
+    pointer-events: none;
+    z-index: 5;
+}
+
+#sacred-sidebar.near-jiva {
+    transform: scaleX(1.1);
+}
+
+#sacred-sidebar.near-jiva::before {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    animation: basaltHum 0.2s infinite alternate;
+}
+
+@keyframes basaltHum {
+    from {
+        opacity: 0.6;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.basalt-pillar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #050505 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10vh 0;
+}
+
+.pillar-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://grainy-gradients.vercel.app/noise.svg');
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+}
+
+.pillar-cracks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(45deg, transparent 45%, rgba(255, 255, 255, 0.05) 48%, rgba(0, 0, 0, 0.5) 50%, transparent 52%),
+        linear-gradient(-30deg, transparent 40%, rgba(255, 255, 255, 0.03) 42%, rgba(0, 0, 0, 0.4) 45%, transparent 48%);
+    background-size: 100px 100px;
+    pointer-events: none;
+}
+
+.pillar-vibhuti {
+    position: absolute;
+    top: 15%;
+    left: 10%;
+    width: 80%;
+    height: 10%;
+    background: rgba(255, 255, 255, 0.1);
+    filter: blur(8px) url(#ash-texture);
+    transform: rotate(-5deg);
+    pointer-events: none;
+}
+
+.etched-symbols {
+    display: flex;
+    flex-direction: column;
+    gap: 15vh;
+    z-index: 10;
+}
+
+.symbol-container {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+}
+
+.sacred-symbol {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+    transition: stroke 0.6s ease, filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Ignition States */
+.symbol-container.ignited .sacred-symbol {
+    stroke-width: 4;
+    transform: scale(1.2);
+}
+
+/* Veerbhadra Symbol Effects */
+[data-zone="veerbhadra"].ignited .sacred-symbol {
+    stroke: var(--accent-fire);
+    filter: drop-shadow(0 0 8px var(--accent-fire)) drop-shadow(0 0 15px var(--accent-rage));
+}
+
+[data-zone="veerbhadra"].ignited .eye-pupil {
+    fill: var(--accent-fire);
+    animation: eyeFlicker 1s infinite alternate;
+}
+
+/* Hanuman Symbol Effects */
+[data-zone="hanuman"].ignited .sacred-symbol {
+    stroke: #ffa000;
+    filter: drop-shadow(0 0 8px #ffa000) drop-shadow(0 0 15px #e65100);
+}
+
+[data-zone="hanuman"].ignited .sanjeevani-glow {
+    fill: var(--accent-sanjeevani);
+    filter: blur(4px);
+    animation: mountainGlow 2s infinite alternate;
+}
+
+/* Ram Symbol Effects */
+[data-zone="ram"].ignited .sacred-symbol {
+    stroke: #ffffff;
+    filter: drop-shadow(0 0 10px #ffffff) drop-shadow(0 0 20px var(--accent-gold));
+}
+
+[data-zone="ram"].ignited .sun-core {
+    fill: #ffffff;
+}
+
+[data-zone="ram"].ignited .sun-rays {
+    animation: sunSpin 10s linear infinite;
+    transform-origin: 50px 50px;
+}
+
+@keyframes eyeFlicker {
+    0% {
+        opacity: 0.8;
+        r: 10;
+    }
+
+    100% {
+        opacity: 1;
+        r: 12;
+    }
+}
+
+@keyframes mountainGlow {
+    0% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0.8;
+        transform: scale(1.3);
+    }
+}
+
+@keyframes sunSpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Remove old nav link styles */
+.sidebar-nav,
+.nav-link,
+.sidebar-bhasm {
+    display: none;
+}
+
+/* Desktop visibility adjustments for sidebar */
+@media (min-width: 1024px) {
+    #sacred-sidebar {
+        width: 400px;
+        left: -400px;
+    }
+}

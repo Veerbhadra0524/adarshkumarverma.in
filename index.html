@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evolution of a Saint | optimized</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Yatra+One&family=Spectral:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- SVG Filter Architect: Sacred Bhasm (Ash) Texture -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="ash-texture" x="-20%" y="-20%" width="140%" height="140%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="3" result="noise" />
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R"
+                    yChannelSelector="G" />
+                <feColorMatrix type="matrix"
+                    values="0.33 0.33 0.33 0 0.2 0.33 0.33 0.33 0 0.2 0.33 0.33 0.33 0 0.2 0 0 0 1 0" />
+            </filter>
+
+            <filter id="ember-glow">
+                <feGaussianBlur stdDeviation="3" result="glow" />
+                <feMerge>
+                    <feMergeNode in="glow" />
+                    <feMergeNode in="SourceGraphic" />
+                </feMerge>
+            </filter>
+        </defs>
+    </svg>
+</head>
+
+<body class="heartbeat-active">
+    <button id="sidebar-trigger" aria-label="Toggle Navigation">
+        <span class="trigger-line"></span>
+        <span class="trigger-line"></span>
+        <span class="trigger-line"></span>
+    </button>
+
+    <aside id="sacred-sidebar">
+        <div class="basalt-pillar">
+            <div class="pillar-texture"></div>
+            <div class="pillar-cracks"></div>
+            <div class="pillar-vibhuti"></div>
+
+            <div class="etched-symbols">
+                <div class="symbol-container" data-zone="veerbhadra" id="nav-veerbhadra">
+                    <svg class="sacred-symbol" viewBox="0 0 100 100">
+                        <circle cx="50" cy="45" r="25" class="eye-outer" />
+                        <circle cx="50" cy="45" r="10" class="eye-pupil" />
+                        <path d="M50,70 L50,90" class="tear-drop" />
+                        <path d="M25,45 Q50,20 75,45" class="eye-lid-top" />
+                        <path d="M25,45 Q50,70 75,45" class="eye-lid-bottom" />
+                    </svg>
+                </div>
+
+                <div class="symbol-container" data-zone="hanuman" id="nav-hanuman">
+                    <svg class="sacred-symbol" viewBox="0 0 100 100">
+                        <path d="M20,80 L50,20 L80,80 Z" class="mountain-base" />
+                        <path d="M45,30 L55,30 L50,20 Z" class="mountain-peak" />
+                        <circle cx="50" cy="50" r="15" class="sanjeevani-glow" />
+                    </svg>
+                </div>
+
+                <div class="symbol-container" data-zone="ram" id="nav-ram">
+                    <svg class="sacred-symbol" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="30" class="sun-core" />
+                        <g class="sun-rays">
+                            <line x1="50" y1="10" x2="50" y2="20" />
+                            <line x1="50" y1="80" x2="50" y2="90" />
+                            <line x1="10" y1="50" x2="20" y2="50" />
+                            <line x1="80" y1="50" x2="90" y2="50" />
+                            <line x1="21.7" y1="21.7" x2="28.8" y2="28.8" />
+                            <line x1="71.2" y1="71.2" x2="78.3" y2="78.3" />
+                            <line x1="21.7" y1="78.3" x2="28.8" y2="71.2" />
+                            <line x1="71.2" y1="28.8" x2="78.3" y2="21.7" />
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Background Layer (Z: -1) -->
+    <div class="canvas-wrapper">
+        <div class="stone-bg"
+            style="--bg-url: url('/home/veerbhadra/.gemini/antigravity/brain/4443595c-f793-4614-99da-bd3fcfa6b16f/smoldering_stone_background_1772966145737.png')">
+            <div class="shattered-trishul-container">
+                <svg viewBox="0 0 100 200" class="trishul-svg">
+                    <g filter="url(#ember-glow)">
+                        <rect x="48" y="40" width="4" height="140" fill="#2a1d13" />
+                        <path d="M50,40 Q80,45 80,10" fill="none" stroke="#2a1d13" stroke-width="4" />
+                        <path d="M50,40 Q20,45 20,10" fill="none" stroke="#8b0000" stroke-width="4"
+                            stroke-dasharray="2,2" class="broken-prong" />
+                        <path d="M50,40 L50,0" fill="none" stroke="#2a1d13" stroke-width="4" />
+                    </g>
+                </svg>
+            </div>
+        </div>
+        <canvas id="main-canvas"></canvas>
+        <div id="hriday-light"></div>
+    </div>
+
+    <!-- Internal Japa Background Layer (Z: 1) -->
+    <div id="japa-container">
+        <div class="japa-layer" id="japa-veerbhadra">
+            ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय
+            ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय
+            ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय ॐ नमः शिवाय
+        </div>
+        <div class="japa-layer" id="japa-hanuman">
+            श्री राम जय राम जय जय राम श्री राम जय राम जय जय राम श्री राम जय राम जय जय राम श्री राम जय राम जय जय राम श्री
+            राम जय राम जय जय राम श्री राम जय राम जय जय राम श्री राम जय राम जय जय राम श्री राम जय राम जय जय राम
+        </div>
+        <div class="japa-layer" id="japa-ram">
+            राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम
+            राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम राम
+            राम राम
+        </div>
+    </div>
+
+    <!-- Morphing Layer (Z: 0) -->
+    <div class="svg-layer">
+        <div class="tripund-container">
+            <svg id="tripund-vibhuti" viewBox="0 0 100 100">
+                <g filter="url(#ash-texture)">
+                    <path class="vibhuti-line" d="M20,40 Q50,38 80,40" />
+                    <path class="vibhuti-line" d="M18,50 Q50,48 82,50" />
+                    <path class="vibhuti-line" d="M20,60 Q50,58 80,60" />
+                </g>
+                <circle class="third-eye-bindu" cx="50" cy="50" r="4" />
+            </svg>
+        </div>
+        <svg id="morph-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <path id="spirit-symbol" d="" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+    </div>
+
+    <!-- Interface Layer (Z: 10) -->
+    <!-- Sacred UI Overlays -->
+    <div id="fissure-track">
+        <div id="fissure-magma"></div>
+    </div>
+    <div id="jiva-core"></div>
+    <div id="jiva-aura"></div>
+
+    <main class="container">
+        <header class="hero">
+            <div class="shloka-wrapper">
+                <h2 class="shloka cooling-iron">
+                    यां चिन्तयामि सततं मयि सा विरक्ता<br>
+                    साप्यन्यमिच्छति जनं स जनोऽन्यसक्तः ।<br>
+                    अस्मत्कृते च परितुष्यति काचिदन्या<br>
+                    धिक् तां च तं च मदनं च इमां च मां च ॥
+                </h2>
+            </div>
+            <div class="scroll-prompt">
+                <div class="line"></div>
+            </div>
+        </header>
+
+        <article class="content">
+            <div class="fragment reveal reading-glass" data-zone="veerbhadra">
+                <p>was just a page, though it was long and wide, but still somewhere it has to get over, somewhere lines
+                    end , somewhere materials change and terminate in a killer slash that murders every last trace of
+                    forever, ripping the chest cavity open again and again until the screaming never stops and the blood
+                    of belief floods every broken corner of existence as tears choke these very words and sobs tear the
+                    throat raw leaving nothing but raw pulsing hatred for how the mighty was slaughtered without mercy
+                    while the crying never ever ends oh god the pain.</p>
+            </div>
+
+            <div class="fragment reveal reading-glass" data-zone="veerbhadra" id="jata-trigger">
+                <p>there has never been anything that can span over anything and everything, winds blow , destroy and
+                    takeover anything which looked mighty once, something which was ought to be endless, to be epitome
+                    of purity and sacrifice , just ended up in drama, in maybe no-no surely in delusion that acts like a
+                    cold-blooded killer stalking in silence, stabbing the back of every sacred promise and devouring the
+                    offered light with such vicious aggression that the soul fractures into a million howling pieces as
+                    the eyes flood with endless tears and the chest heaves in uncontrollable sobs raging against the
+                    monstrous betrayal that poisoned everything noble forever why why does it hurt like this the tears
+                    just won’t stop.</p>
+            </div>
+
+            <div class="fragment reveal reading-glass" data-zone="hanuman" id="sanjeevani-trigger">
+                <p>the desire to explore more, this very human desire makes humans animals forget that limits are set to
+                    keep things in order , to keep people from falling off, yet the fury surges like lethal venom
+                    because that same hunger turns into a soul-murdering force that drags the pure down into the pit and
+                    crushes it underfoot with deliberate cruelty, aggressive and disturbed beyond any repair, twisting
+                    every careful hand that reached out into a weapon that kills the last spark of trust with
+                    unrelenting blood-soaked finality while the tears pour down blurring every line and the sobs shake
+                    the entire being in disturbed torment god the crying is tearing everything apart.</p>
+            </div>
+
+            <div class="fragment reveal reading-glass" data-zone="ram" id="kodanda-trigger">
+                <p>but just so , a person taken over by astigmatism cannot see the good when someone tries to fix their
+                    vision with some sort of corrective , curated measures. they are lost, they take everything good to
+                    bury it in some murky depth where the killer darkness feasts on every last drop of sacrifice,
+                    mentally distressed and hateful to the marrow, cursing existence itself with such poisonous loathing
+                    that every breath becomes a tortured gasp of rage for the ingratitude that slaughters the innocent
+                    and leaves only endless black screaming emptiness in its wake as everything breaks down completely
+                    in uncontrollable crying because the wound cuts too deep and the tears just keep coming and coming
+                    with the hatred burning hotter than ever.</p>
+            </div>
+        </article>
+
+        <footer class="footer">
+            <div id="sarayu-river"></div>
+            <div class="lotus-shrine">
+                <div class="lotus-vfx-container">
+                    <svg viewBox="0 0 100 100" class="lotus-svg" id="final-lotus">
+                        <circle cx="50" cy="50" r="10" fill="var(--accent-gold)" class="lotus-core" />
+                    </svg>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <div class="noise-layer"></div>
+    <div id="vfx-overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
